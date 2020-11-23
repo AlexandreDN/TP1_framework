@@ -41,11 +41,17 @@ object Main {
     print("\nQuestion 4\n")
     val DiCaprio_views=DiCaprio_rdd.map(item => (item.split(";")(1).toDouble))
     val allViews = rdd.map(item => (item.split(";")(1).toDouble))
-    val rateView= DiCaprio_views.sum() / allViews.sum()
+    val rateView= DiCaprio_views.sum() / allViews.sum() * 100
     print(rateView)
 
     //question 5
     print("\n Question 5\n")
+    val counts = rdd.map(item => (item.split(";")(3).toString, (1.0, item.split(";")(2).toDouble)) )
+    val countSums = counts.reduceByKey((x,y) => (x._1 + y._1, x._2 + y._2 ))
+    val keyMeans = countSums.mapValues(avgCount => avgCount._2 / avgCount._1)
+    keyMeans.foreach(println)
+
+
 
 
 
